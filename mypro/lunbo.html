@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/banner1.css">
+    <script>
+
+        //兼容IE/chrome,ff
+
+        function move(obj,json,funEnd){
+            clearInterval(obj.timer);
+            obj.timer= setInterval(function(){
+                var flag=true;//设置一个初始值假设全部的属性都已经执行了完了 
+                for(var attr in json){
+                    var  currentAttr=0;
+                    if(attr=="opacity"){
+                        currentAttr=Math.round(parseFloat(getStyle(obj,attr))*100);
+                    }
+
+                    else {
+                        currentAttr=parseInt(getStyle(obj,attr));
+
+
+                    }
+
+
+
+                    var speed=(json[attr]-currentAttr)/10;
+
+
+
+                    speed=speed>0?Math.ceil(speed):Math.floor(speed);
+
+
+                    if(json[attr]!=currentAttr)//如果没有到达目标值
+                    {
+                        flag=false;
+
+
+                    }
+                    // if(json[attr]==currentAttr){
+                    //   clearInterval(obj.timer);
+                    //   if(funEnd)funEnd();
+                    //   // if(funEnd){
+                    //   //   funEnd();
+                    //   // }
+                    // }
+
+
+                    // else {
+                    if(attr=="opacity"){
+                        // currentAttr+=speed;
+                        obj.style.opacity=(currentAttr+speed)/100;
+                        obj.style.filter='alpha(opacity:'+(currentAttr+speed)+')';
+                    }
+                    else {
+                        obj.style[attr]=currentAttr+speed+"px";
+
+
+                    }
+
+
+                    // }
+                }
+                if(flag){//全部的属性已经执行
+                    clearInterval(obj.timer);
+                    if(funEnd)funEnd();
+
+
+                }
+
+
+
+
+            },30)
+        }
+
+
+        //js轮播代码
+        function getStyle(obj,name){
+
+
+            if(obj.currentStyle){
+                return obj.currentStyle[name];
+            }
+            else {
+                return getComputedStyle(obj,false)[name];
+            }<!DOCTYPE html>
+            <html lang="en">
+                <head>
+                <meta charset="UTF-8">
+                <title>Document</title>
+                <style>
+                * {
+                    margin: 0;
+            padding: 0;
+        }
+        .banner {
+                width: 600px;
+                height: 400px;
+                border: 5px solid black;
+                margin: 100px auto;
+                overflow: hidden;
+                cursor: pointer;
+                position: relative;
+            }
+        .banner .slide {
+                width: 4000px;
+                height: 400px;
+                position: absolute;
+                left: -600px;
+            }
+        .banner .slide .pic {
+                width: 600px;
+                height: 400px;
+                line-height: 400px;
+                text-align: center;
+                float: left;
+                font-size: 72px;
+                color: white;
+            }
+        .banner .slide .a {
+                background-color: black;
+            }
+        .banner .slide .b {
+                background-color: pink;
+            }
+        .banner .slide .c {
+                background-color: purple;
+            }
+        .banner .dots{
+                width: 100px;
+                height: 30px;
+                position: absolute;
+                bottom: 0px;
+                left: 50%;
+                margin-left: -50px;
+                z-index: 2;/*让圆点显示在轮播图上面*/
+            }
+        .banner .dots .dot{
+                /*圆点的一些样式*/
+                width:20px;
+                height: 20px;
+                float: left;
+                border-radius: 50%;
+                margin:5px 6px;
+                background-color: rgba(7,17,27,0.4);
+                box-shadow: 0 0 0 2px rgba(255,255,255,0.8) inset;
+                cursor:pointer;
+
+            }
+        .banner .dots .active{
+                /*小圆点高亮的样式*/
+                box-shadow: 0 0 0 2px rgba(7,17,27,0.4) inset;
+                background-color: #fff;
+            }
+        .banner .arrow{
+                /*左箭头*/
+                width: 0;
+                height: 0;
+                border-right: 30px solid rgba(255,255,255,.5);
+                border-top: 30px solid transparent;
+                border-bottom: 30px solid transparent;
+                position: absolute;
+                left:0;
+                top: 50%;
+                margin-top: -30px;
+                z-index: 2;
+            }
+        .banner .arrow:hover{
+                /*鼠标移动到箭头时候的样式*/
+                border-right-color:white ;
+            }
+        .banner .next{
+                /*右箭头*/
+                left:auto;
+                right: 0;
+                top: 50%;
+                margin-top: -30px;
+                transform: rotate(180deg);
+                z-index: 2;
+            }
+        </style>
+            </head>
+            <body>
+            <div class="banner">
+                <div class="slide">
+                <!-- 这边多设置一张重复的图片就是我实现无缝轮播的关键之一啦，
+                    当图片轮播到C的时候继续让它滑动，当切换到A（副本）的时候，
+                    立马用JS将图片替换成图片A，然后，再从第二张开始轮播
+            在视觉上我们感受到的就是无缝轮播了。
+                    这个瞬间就是0ms，我们肉眼看不到的。-->
+            <div class="pic c">C</div><!-- C(副本)-->
+                <!-- 真正要轮播的就这三个ABC图片 -->
+                <div class="pic a">A</div>
+                <div class="pic b">B</div>
+                <div class="pic c">C</div>
+                <!-- 这边也是同样的道理，无缝轮播要添加的副本 -->
+                <div class="pic a">A</div><!-- A(副本)-->
+                </div>
+                <div class="dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                </div>
+                <div class="arrow next"></div>
+                <div class="arrow prev"></div>
+                </div>
+                <!-- 这里引用jQuery的源码 -->
+                <script type="text/javascript" src="jquery-2.2.4.min.js"></script>
+    <script type="text/javascript">
+        var index=1;//这是记录图片的索引，通过索引来控制图片的切换，
+        // 注意是从1开始的   [1,size-2]
+        var timer=null;//seInterval()函数会返回一个值，这是用来接收那个值的，可以用来停止轮播的效果
+        var size=$('.slide').children().size();//图片的张数
+        var picWidth=$('.pic').width();//获取图片的宽度
+        //鼠标移上去的时候图片轮播要暂停
+        $('.banner').mouseover(function(){
+            clearInterval(timer);
+        });
+        //鼠标移走的时候再次开始
+        $('.banner').mouseleave(function(){
+            autoSlide();
+        });
+        /*这里要调用这个函数。这里也是一个关键。
+        因为当你点进这个页面以后不管你鼠标放在哪里，图片都是要动的吧。
+        这样子写的意思就是触发这个.slide类的mouseover事件，
+        而上面那个是给这个元素绑定事件*/
+        $('.slide').mouseleave();
+        //自动播放
+        function autoSlide(){
+            timer=setInterval(function(){
+                index++;//通过索引来控制图片嘛，每隔一段时间当然要让图片动起来。
+                changeImg();
+                changeDots();
+            },1500);//每隔1.5S就切换一次图片
+        };
+
+        // 图片切换函数
+        function changeImg(){
+            var slideWidth=-1*picWidth*index;//移动的距离
+            $('.slide').animate({
+                'left':slideWidth+'px'//每次滑动一个图片的距离
+            },500);//500的意思是动画效果要在500ms内完成
+            if(index>=size-1){
+                /*这是关键之三，
+                当移动到最后一张图片的时候,
+                瞬间（animate函数最后那个0代表转换时间为0ms，所以就是一瞬间的事）
+                切换为第一张。*/
+                $('.slide').animate({'left':-picWidth+'px'},0);// 图片切换过去
+                index=1;//索引要也切换为第一幅图的索引
+            }
+            if(index<1){
+                //要注意在执行下面这段函数之前，已经切换到图片C了。
+                $('.slide').animate({'left':-(size-2)*picWidth+'px'},0);// 而这里便是无缝切换的代码
+                // (肉眼看不到),但实际已经切换到图片C了
+                index=size-2;
+            }
+        }
+        //小圆点切换的函数
+        function changeDots(){
+            //给当前的小圆点添加高亮的样式（active），然后把其他小圆点的样式去掉。
+            /*这里设置index-1的原因是因为点只有三个。
+            当图片的索引为1，圆点的索引为0
+            图片索引为2，圆点索引为1
+            所以我们可以看到一直都差1*/
+            $('.dot').eq(index-1).addClass('active').siblings().removeClass('active');
+
+        }
+        //点击小圆点，切换到对应的图片
+        $('.dot').click(function(event){
+            var target=event.target;//获取点击到的小圆点，获取到的是一个DOM元素
+            //获取DOM元素的索引值。
+            index=$(target).index()+1;// +1的原因：看上面changeDots()的注释
+            changeImg();//改变图片<!DOCTYPE html>
+        <html lang="en">
+                <head>
+                <meta charset="UTF-8">
+                <title>Document</title>
+                <style>
+                * {
+                    margin: 0;
+            padding: 0;
+        }
+        .banner {
+                width: 600px;
+                height: 400px;
+                border: 5px solid black;
+                margin: 100px auto;
+                overflow: hidden;
+                cursor: pointer;
+                position: relative;
+            }
+        .banner .slide {
+                width: 4000px;
+                height: 400px;
+                position: absolute;
+                left: -600px;
+            }
+        .banner .slide .pic {
+                width: 600px;
+                height: 400px;
+                line-height: 400px;
+                text-align: center;
+                float: left;
+                font-size: 72px;
+                color: white;
+            }
+        .banner .slide .a {
+                background-color: black;
+            }
+        .banner .slide .b {
+                background-color: pink;
+            }
+        .banner .slide .c {
+                background-color: purple;
+            }
+        .banner .dots{
+                width: 100px;
+                height: 30px;
+                position: absolute;
+                bottom: 0px;
+                left: 50%;
+                margin-left: -50px;
+                z-index: 2;/*让圆点显示在轮播图上面*/
+            }
+        .banner .dots .dot{
+                /*圆点的一些样式*/
+                width:20px;
+                height: 20px;
+                float: left;
+                border-radius: 50%;
+                margin:5px 6px;
+                background-color: rgba(7,17,27,0.4);
+                box-shadow: 0 0 0 2px rgba(255,255,255,0.8) inset;
+                cursor:pointer;
+
+            }
+        .banner .dots .active{
+                /*小圆点高亮的样式*/
+                box-shadow: 0 0 0 2px rgba(7,17,27,0.4) inset;
+                background-color: #fff;
+            }
+        .banner .arrow{
+                /*左箭头*/
+                width: 0;
+                height: 0;
+                border-right: 30px solid rgba(255,255,255,.5);
+                border-top: 30px solid transparent;
+                border-bottom: 30px solid transparent;
+                position: absolute;
+                left:0;
+                top: 50%;
+                margin-top: -30px;
+                z-index: 2;
+            }
+        .banner .arrow:hover{
+                /*鼠标移动到箭头时候的样式*/
+                border-right-color:white ;
+            }
+        .banner .next{
+                /*右箭头*/
+                left:auto;
+                right: 0;
+                top: 50%;
+                margin-top: -30px;
+                transform: rotate(180deg);
+                z-index: 2;
+            }
+        </style>
+            </head>
+            <body>
+            <div class="banner">
+                <div class="slide">
+                <!-- 这边多设置一张重复的图片就是我实现无缝轮播的关键之一啦，
+                    当图片轮播到C的时候继续让它滑动，当切换到A（副本）的时候，
+                    立马用JS将图片替换成图片A，然后，再从第二张开始轮播
+            在视觉上我们感受到的就是无缝轮播了。
+                    这个瞬间就是0ms，我们肉眼看不到的。-->
+            <div class="pic c">C</div><!-- C(副本)-->
+                <!-- 真正要轮播的就这三个ABC图片 -->
+                <div class="pic a">A</div>
+                <div class="pic b">B</div>
+                <div class="pic c">C</div>
+                <!-- 这边也是同样的道理，无缝轮播要添加的副本 -->
+                <div class="pic a">A</div><!-- A(副本)-->
+                </div>
+                <div class="dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                </div>
+                <div class="arrow next"></div>
+                <div class="arrow prev"></div>
+                </div>
+                <!-- 这里引用jQuery的源码 -->
+                <script type="text/javascript" src="jquery-2.2.4.min.js"></script>
+    <script type="text/javascript">
+        var index=1;//这是记录图片的索引，通过索引来控制图片的切换，
+        // 注意是从1开始的   [1,size-2]
+        var timer=null;//seInterval()函数会返回一个值，这是用来接收那个值的，可以用来停止轮播的效果
+        var size=$('.slide').children().size();//图片的张数
+        var picWidth=$('.pic').width();//获取图片的宽度
+        //鼠标移上去的时候图片轮播要暂停
+        $('.banner').mouseover(function(){
+            clearInterval(timer);
+        });
+        //鼠标移走的时候再次开始
+        $('.banner').mouseleave(function(){
+            autoSlide();
+        });
+        /*这里要调用这个函数。这里也是一个关键。
+        因为当你点进这个页面以后不管你鼠标放在哪里，图片都是要动的吧。
+        这样子写的意思就是触发这个.slide类的mouseover事件，
+        而上面那个是给这个元素绑定事件*/
+        $('.slide').mouseleave();
+        //自动播放
+        function autoSlide(){
+            timer=setInterval(function(){
+                index++;//通过索引来控制图片嘛，每隔一段时间当然要让图片动起来。
+                changeImg();
+                changeDots();
+            },1500);//每隔1.5S就切换一次图片
+        };
+
+        // 图片切换函数
+        function changeImg(){
+            var slideWidth=-1*picWidth*index;//移动的距离
+            $('.slide').animate({
+                'left':slideWidth+'px'//每次滑动一个图片的距离
+            },500);//500的意思是动画效果要在500ms内完成
+            if(index>=size-1){
+                /*这是关键之三，
+                当移动到最后一张图片的时候,
+                瞬间（animate函数最后那个0代表转换时间为0ms，所以就是一瞬间的事）
+                切换为第一张。*/
+                $('.slide').animate({'left':-picWidth+'px'},0);// 图片切换过去
+                index=1;//索引要也切换为第一幅图的索引
+            }
+            if(index<1){
+                //要注意在执行下面这段函数之前，已经切换到图片C了。
+                $('.slide').animate({'left':-(size-2)*picWidth+'px'},0);// 而这里便是无缝切换的代码
+                // (肉眼看不到),但实际已经切换到图片C了
+                index=size-2;
+            }
+        }
+        //小圆点切换的函数
+        function changeDots(){
+            //给当前的小圆点添加高亮的样式（active），然后把其他小圆点的样式去掉。
+            /*这里设置index-1的原因是因为点只有三个。
+            当图片的索引为1，圆点的索引为0
+            图片索引为2，圆点索引为1
+            所以我们可以看到一直都差1*/
+            $('.dot').eq(index-1).addClass('active').siblings().removeClass('active');
+
+        }
+        //点击小圆点，切换到对应的图片
+        $('.dot').click(function(event){
+            var target=event.target;//获取点击到的小圆点，获取到的是一个DOM元素
+            //获取DOM元素的索引值。
+            index=$(target).index()+1;// +1的原因：看上面changeDots()的注释
+            changeImg();//改变图片
+            changeDots();// 小圆点的状态也要跟着变
+        });
+        // 点击下一张切换图片
+        $('.next').click(function(){
+            index++;
+            changeImg();
+            changeDots();
+        });
+        // 点击上一张切换图片
+        $('.prev').click(function(){
+            index--;
+            changeImg();
+            changeDots();
+        });
+    </script>
+    </body>
+</html>
