@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/my.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="header"></div>
+<div class="login">
+    <div class="container login_container">
+        <div class="logincontent">
+            <form action="">
+                <h3 class="login_title">账号登陆</h3>
+                <div class="tips1 ">app快速登陆</div>
+                <div class="tips1 ">密码登录在这里</div>
+                <span class="loginpng"></span>
+                <ul class="list-unstyled loginInputContainer ">
+                    <li><input type="text" placeholder="请输入您的电子邮箱" class="logininput"></li>
+                    <li><input type="password" placeholder="请输入您的密码" class="logininput"></li>
+                    <li><label for="check"><input type="checkbox" id="check">十天内免登陆</label><span class="wupwd"><a href="">忘记登陆密码?</a></span></li>
+                    <li><button class="denglu"><a href="">登录</a></button></li>
+                    <li><span><a href="">使用天翼账号登录</a></span><span class="register"><a href="">免费注册</a></span></li>
+                </ul>
+                <ul class="erweima list-unstyled hide">
+                    <li><img src="img/login/scerweima.png" style="width:130px;height:130px;" alt=""></li>
+                    <li>打开<a href="">天翼云</a>客户端扫一扫</li>
+                    <li><span><a href="">下载云app</a></span><span class="register"><a href="">免费注册</a></span></li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="shouhou">
+        <div class="container">
+            <div class="row">
+                <div class="col-2 ">
+                    <img src="img/foot/1.png" alt="">
+                    <span>
+                    7x24 <br>
+                    小时售后
+                </span>
+                </div>
+                <div class="col-2 ">
+                    <img src="img/foot/2.png" alt="">
+                    <span>
+                    7天 <br>
+                    免费试用
+                </span>
+                </div>
+                <div class="col-2 ">
+                    <img src="img/foot/3.png" alt="">
+                    <span>
+                    7天 <br>
+                    无条件退款
+                </span>
+                </div>
+                <div class="col-2 ">
+                    <img src="img/foot/4.png" alt="">
+                    <span>
+                    免费 <br>
+                    镜像
+                </span>
+                </div>
+                <div class="col-2 ">
+                    <img src="img/foot/5.png" alt="">
+                    <span>
+                    免费 <br>
+                    快速备案
+                </span>
+                </div>
+                <div class="col-2 ">
+                    <img src="img/foot/6.png" alt="">
+                    <span>
+                    99.95% <br>
+                    可用性
+                </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<div class="footer"></div>
+<script>
+        $(".header").load("header.html", function () {
+            //解决方案下拉菜单
+            $("#drop1,#drop1_1").mouseenter(function () {
+                $("#drop1_1").css("display", "block")
+            })
+            $("#drop1_1,#drop1").mouseleave(function () {
+                $("#drop1_1").css("display", "none")
+            })
+            $("#drop2,#drop2_2").mouseenter(function () {
+                $("#drop2_2").css("display", "block")
+            })
+            $("#drop2_2,#drop2").mouseleave(function () {
+                $("#drop2_2").css("display", "none")
+            })
+        })
+        //引入底部
+        $(".footer").load("footer.html")
+    //点击切换二维码
+    $(".loginpng").click(function() {
+        var $this = $(".loginpng")
+        if ($this.next().has("hide") != true) {
+            $this.animate({
+                "background-position-x": "-=60",
+                "background-position-y": "-=52"
+            })
+            $this.next().addClass("hide")
+                .next().removeClass("hide")
+        }
+
+
+    })
+</script>
+
+
+</body>
+</html>
